@@ -22,18 +22,12 @@
         <div id="admin-links" style="display: none;">
             <p>Welcome, admin! Go to:</p>
             <ul>
-                <li><a href="/pages/member-registration.html">Member View</a></li>
-                <li><a href="/pages/horse-registration.html">Horse View</a></li>
+                <li><a href="../pages/member-registration.html">Member View</a></li>
+                <li><a href="../pages/horse-registration.html">Horse View</a></li>
             </ul>
             <button id="logout">Logout</button>
         </div>
     </main>
-
-    <script>
-        fetch('/partials/navbar.html')
-            .then(res => res.text())
-            .then(html => document.getElementById('navbar-placeholder').innerHTML = html);
-    </script>
 
     <!-- Firebase Auth -->
     <script type="module">
@@ -83,6 +77,15 @@
                 loginForm.style.display = "block";
             }
         });
+    </script>
+
+    <!--Add Nav Bar-->
+    <script>
+        fetch('../partials/navbar.html')
+            .then(res => res.text())
+            .then(html => {
+                document.getElementById('navbar-placeholder').innerHTML = html;
+            });
     </script>
 </body>
 

@@ -1,14 +1,41 @@
+<!-- 
+Index file: 
+Landing page for all memebers and admin
+Admin will be able to log in and navigate to viewing members, registrations etc.
+Users will be able to create accounts, add memberships, pay, add horse registrations etc.
+-->
 <!DOCTYPE html>
 <html lang="en">
-    <head>
-        <meta charset="UTF-8" />
-        <meta name="viewport", content="width=device-width, initial-scale=1.0" />
-        <title>Registration Portal</title>
-        <link rel="stylesheet" href="styles/styles.css" />
-    </head>
-    <body>
-        <h1>Register here</h1>
-        <p>Use the form below to register horses</p>
-        
-    </body>
+
+<head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Registration Portal</title>
+    <link rel="stylesheet" href="styles/styles.css" />
+</head>
+
+<div id="navbar-placeholder"></div>
+
+<body>
+    <h1>QLD Pinto Society Registration Portal</h1>
+    <p>Welcome to the official registration portal.</p>
+    <p>Membership and horse registrations for the 2025 season open on August 1st.</p>
+    <p>Please ensure you read the registration requirements before submitting.</p>
+    <ul>
+        <li><a href="/pages/member-registration.html">Membership Registration</a></li>
+        <li><a href="/pages/horse-registration.html">Horse Registration</a></li>
+        <li><a href="/pages/login.html">Admin Login</a></li>
+    </ul>
+
+    <!--Add Nav Bar-->
+    <script>
+        fetch('/partials/navbar.html')
+            .then(res => res.text())
+            .then(html => {
+                document.getElementById('navbar-placeholder').innerHTML = html;
+            });
+    </script>
+
+</body>
+
 </html>

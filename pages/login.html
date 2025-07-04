@@ -1,0 +1,89 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Admin Login</title>
+    <link rel="stylesheet" href="../styles/styles.css" />
+</head>
+
+<body>
+    <div id="navbar-placeholder"></div>
+
+    <main>
+        <h2>Admin Login</h2>
+        <form id="login-form">
+            <input type="email" id="email" placeholder="Email" required><br>
+            <input type="password" id="password" placeholder="Password" required><br>
+            <button type="submit">Login</button>
+        </form>
+
+        <div id="admin-links" style="display: none;">
+            <p>Welcome, admin! Go to:</p>
+            <ul>
+                <li><a href="/pages/member-registration.html">Member View</a></li>
+                <li><a href="/pages/horse-registration.html">Horse View</a></li>
+            </ul>
+            <button id="logout">Logout</button>
+        </div>
+    </main>
+
+    <script>
+        fetch('/partials/navbar.html')
+            .then(res => res.text())
+            .then(html => document.getElementById('navbar-placeholder').innerHTML = html);
+    </script>
+
+    <!-- Firebase Auth -->
+    <script type="module">
+        import { initializeApp } from "https://www.gstatic.com/firebasejs/11.10.0/firebase-app.js";
+        import { getAuth, onAuthStateChanged, signInWithEmailAndPassword, signOut } from "https://www.gstatic.com/firebasejs/11.10.0/firebase-auth.js";
+
+        const firebaseConfig = {
+            apiKey: "AIzaSyDpSfm7AvWXTyuVD3guikLG8-uFRd33qSU",
+            authDomain: "pinto-registration.firebaseapp.com",
+            projectId: "pinto-registration",
+            storageBucket: "pinto-registration.firebasestorage.app",
+            messagingSenderId: "519987084013",
+            appId: "1:519987084013:web:2e5c42738798a4f22d2ae4",
+            measurementId: "G-E15Z5YL5P5"
+        };
+
+        const app = initializeApp(firebaseConfig);
+        const auth = getAuth(app);
+
+        // Login
+        document.getElementById('login-form')?.addEventListener('submit', async (e) => {
+            e.preventDefault();
+            const email = document.getElementById('email').value;
+            const password = document.getElementById('password').value;
+            try {
+                await signInWithEmailAndPassword(auth, email, password);
+                alert("Login successful");
+            } catch (err) {
+                alert("Login failed: " + err.message);
+            }
+        });
+
+        // Logout
+        document.getElementById('logout')?.addEventListener('click', () => {
+            signOut(auth);
+        });
+
+        // Auth state
+        onAuthStateChanged(auth, (user) => {
+            const adminLinks = document.getElementById("admin-links");
+            const loginForm = document.getElementById("login-form");
+            if (user) {
+                adminLinks.style.display = "block";
+                loginForm.style.display = "none";
+            } else {
+                adminLinks.style.display = "none";
+                loginForm.style.display = "block";
+            }
+        });
+    </script>
+</body>
+
+</html>

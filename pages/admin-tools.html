@@ -4,7 +4,7 @@
 <head>
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>Member Registration</title>
+    <title>Admin Tools</title>
     <link rel="stylesheet" href="../styles/styles.css" />
 
     <!-- Dynamically set base path for local vs GitHub Pages -->
@@ -29,13 +29,10 @@
         <!-- Add page-specific content here -->
     </main>
 
-    <!-- Load the shared navbar -->
-    <script>
-        fetch('partials/navbar.html')
-            .then(res => res.text())
-            .then(html => {
-                document.getElementById('navbar-placeholder').innerHTML = html;
-            });
+    <!-- Load Navbar -->
+    <script type="module">
+        import { loadNavbar } from "../scripts/load-navbar.js";
+        loadNavbar();
     </script>
 </body>
 

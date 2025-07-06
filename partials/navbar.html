@@ -1,7 +1,13 @@
 <nav class="navbar">
     <ul class="nav-list">
         <li><a href="index.html">Home</a></li>
-        <li><a href="pages/login.html">Login</a></li>
-        <li><a href="pages/member-signup.html">Create Account</a></li>
+        <li class="nav-logged-out"><a href="pages/login.html">Login</a></li>
+        <li class="nav-logged-out"><a href="pages/create-account.html">Create Account</a></li>
+
+        <li class="nav-logged-in" style="display: none;"><a href="pages/membership-registration.html">Membership</a></li>
+        <li class="nav-logged-in" style="display: none;"><a href="pages/horse-registration.html">Register Horse</a></li>
+        <li class="nav-logged-in nav-admin" style="display: none;"><a href="pages/admin-tools.html">Admin Tools</a></li>
+
+        <li class="nav-logged-in" style="display: none;"><a href="#" id="logout-link">Logout</a></li>
     </ul>
 </nav>

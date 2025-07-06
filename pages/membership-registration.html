@@ -47,7 +47,13 @@
 
     <!-- Firebase + Firestore -->
     <script type="module">
+        // Verify Account login
         import { app } from "../scripts/firebase-init.js";
+        import { requireVerifiedUser } from "../scripts/check-user.js";
+
+        // Require login + email verification before continuing
+        await requireVerifiedUser(); // Add `true` here if admin-only
+
         import {
             getFirestore,
             collection,
@@ -83,7 +89,7 @@
         });
     </script>
 
-    <!-- Load Navbar -->
+    <!-- Load the shared navbar -->
     <script>
         fetch('partials/navbar.html')
             .then(res => res.text())
@@ -91,7 +97,6 @@
                 document.getElementById('navbar-placeholder').innerHTML = html;
             });
     </script>
-
 </body>
 
 </html>

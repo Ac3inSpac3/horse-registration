@@ -29,13 +29,10 @@
         <!-- Add page-specific content here -->
     </main>
 
-    <!-- Load the shared navbar -->
-    <script>
-        fetch('partials/navbar.html')
-            .then(res => res.text())
-            .then(html => {
-                document.getElementById('navbar-placeholder').innerHTML = html;
-            });
+    <!-- Load Navbar -->
+    <script type="module">
+        import { loadNavbar } from "../scripts/load-navbar.js";
+        loadNavbar();
     </script>
 </body>
 

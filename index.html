@@ -11,7 +11,7 @@ Users will be able to create accounts, add memberships, pay, add horse registrat
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <title>Registration Portal</title>
-    <link rel="stylesheet" href="../styles/styles.css" />
+    <link rel="stylesheet" href="styles/styles.css" />
 
     <!-- Dynamically set base path for local vs GitHub Pages -->
     <script>
@@ -34,21 +34,14 @@ Users will be able to create accounts, add memberships, pay, add horse registrat
         <p>Welcome to the official registration portal.</p>
         <p>Membership and horse registrations for the 2025 season open on August 1st.</p>
         <p>Please ensure you read the registration requirements before submitting.</p>
-        <ul>
-            <li><a href="pages/member-registration.html">Membership Registration</a></li>
-            <li><a href="pages/horse-registration.html">Horse Registration</a></li>
-            <li><a href="pages/login.html">Admin Login</a></li>
-        </ul>
     </main>
 
     <!-- Load Navbar -->
-    <script>
-        fetch('partials/navbar.html')
-            .then(res => res.text())
-            .then(html => {
-                document.getElementById('navbar-placeholder').innerHTML = html;
-            });
+    <script type="module">
+        import { loadNavbar } from "../scripts/load-navbar.js";
+        loadNavbar();
     </script>
+
 
 </body>
 

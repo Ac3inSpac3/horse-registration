@@ -29,13 +29,17 @@
         <!-- Add page-specific content here -->
     </main>
 
-    <!-- Load the shared navbar -->
-    <script>
-        fetch('partials/navbar.html')
-            .then(res => res.text())
-            .then(html => {
-                document.getElementById('navbar-placeholder').innerHTML = html;
-            });
+    <!-- Firebase + Firestore -->
+    <script type="module">
+        // Verify Account login
+        import { app } from "../scripts/firebase-init.js";
+        import { requireVerifiedUser } from "../scripts/check-user.js";
+    </script>
+
+    <!-- Load Navbar -->
+    <script type="module">
+        import { loadNavbar } from "../scripts/load-navbar.js";
+        loadNavbar();
     </script>
 </body>
 

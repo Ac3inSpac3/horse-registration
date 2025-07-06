@@ -66,12 +66,10 @@
         });
     </script>
 
-
-
     <!-- Load Navbar -->
     <script type="module">
-        import { loadNavbar } from "../scripts/load-navbar.js";
-        loadNavbar();
+        import { BASE_PATH } from "../scripts/env.js";
+        import(`${BASE_PATH}/scripts/load-navbar.js`).then(mod => mod.loadNavbar());
     </script>
 
 </body>

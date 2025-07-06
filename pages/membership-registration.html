@@ -89,13 +89,10 @@
         });
     </script>
 
-    <!-- Load the shared navbar -->
-    <script>
-        fetch('partials/navbar.html')
-            .then(res => res.text())
-            .then(html => {
-                document.getElementById('navbar-placeholder').innerHTML = html;
-            });
+    <!-- Load Navbar -->
+    <script type="module">
+        import { BASE_PATH } from "../scripts/env.js";
+        import(`${BASE_PATH}/scripts/load-navbar.js`).then(mod => mod.loadNavbar());
     </script>
 </body>
 

@@ -17,10 +17,16 @@ import {
  * @param {string} navbarId - The DOM id to inject navbar into.
  * @param {string} logoutRedirect - URL to redirect after logout (default: index.html).
  */
-export async function loadNavbar(navbarId = 'navbar-placeholder', logoutRedirect = "index.html") {
-    // Inject navbar HTML
-    const res = await fetch('partials/navbar.html');
+// scripts/load-navbar.js
+import { BASE_PATH } from "./env.js";
+
+export async function loadNavbar(navbarId = "navbar-placeholder", logoutRedirect = "index.html") {
+    const res = await fetch(`${BASE_PATH}/partials/navbar.html`);
     document.getElementById(navbarId).innerHTML = await res.text();
+
+    const { app } = await import(`${BASE_PATH}/scripts/firebase-init.js`);
+    const { getAuth, onAuthStateChanged, signOut } = await import("https://www.gstatic.com/firebasejs/11.10.0/firebase-auth.js");
+    const { getFirestore, doc, getDoc } = await import("https://www.gstatic.com/firebasejs/11.10.0/firebase-firestore.js");
 
     const auth = getAuth(app);
     const db = getFirestore(app);
@@ -31,11 +37,9 @@ export async function loadNavbar(navbarId = 'navbar-placeholder', logoutRedirect
         const adminItems = document.querySelectorAll('.nav-admin');
 
         if (user && user.emailVerified) {
-            // Show basic logged-in elements
             loggedInItems.forEach(el => el.style.display = 'inline');
             loggedOutItems.forEach(el => el.style.display = 'none');
 
-            // Check admin status
             try {
                 const accountRef = doc(db, "accounts", user.uid);
                 const accountSnap = await getDoc(accountRef);
@@ -46,13 +50,11 @@ export async function loadNavbar(navbarId = 'navbar-placeholder', logoutRedirect
                 adminItems.forEach(el => el.style.display = 'none');
             }
         } else {
-            // Logged out or unverified
             loggedInItems.forEach(el => el.style.display = 'none');
             loggedOutItems.forEach(el => el.style.display = 'inline');
             adminItems.forEach(el => el.style.display = 'none');
         }
 
-        // Setup logout link
         const logoutLink = document.getElementById('logout-link');
         if (logoutLink) {
             logoutLink.addEventListener('click', async () => {

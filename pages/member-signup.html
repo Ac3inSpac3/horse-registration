@@ -5,6 +5,17 @@
     <meta charset="UTF-8" />
     <title>Member Registration</title>
     <link rel="stylesheet" href="../styles/styles.css" />
+
+    <script>
+        // Dynamically set the <base> href to match GitHub Pages subdirectory or root
+        (function () {
+            const base = document.createElement('base');
+            const path = window.location.pathname;
+            const isGitHubPages = path.includes('/horse-registration/');
+            base.href = isGitHubPages ? '/horse-registration/' : '/';
+            document.head.prepend(base);
+        })();
+    </script>
 </head>
 
 <body>
@@ -28,6 +39,8 @@
 
             <button type="submit">Register</button>
         </form>
+
+        <div id="form-message" style="margin-top: 1em;"></div>
     </main>
 
     <!-- Firebase + Firestore -->
@@ -51,9 +64,9 @@
         document.getElementById("member-form").addEventListener("submit", async (e) => {
             e.preventDefault();
 
-            const name = document.getElementById("name").value;
-            const email = document.getElementById("email").value;
-            const phone = document.getElementById("phone").value;
+            const name = document.getElementById("name").value.trim();
+            const email = document.getElementById("email").value.trim();
+            const phone = document.getElementById("phone").value.trim();
             const membershipType = document.getElementById("membershipType").value;
 
             try {
@@ -62,26 +75,30 @@
                     email,
                     phone,
                     membershipType,
-                    isCurrent: false, // default to not current
+                    isCurrent: false,
                     createdAt: serverTimestamp(),
                     memberSince: new Date().getFullYear()
                 });
-                alert("Registration successful!");
+
+                document.getElementById("form-message").textContent = "Registration successful!";
+                document.getElementById("form-message").style.color = "green";
                 e.target.reset();
             } catch (error) {
-                alert("Error saving registration: " + error.message);
+                document.getElementById("form-message").textContent = "Error: " + error.message;
+                document.getElementById("form-message").style.color = "red";
             }
         });
     </script>
 
-    <!--Add Nav Bar-->
+    <!-- Load Navbar -->
     <script>
-        fetch('../partials/navbar.html')
+        fetch('partials/navbar.html')
             .then(res => res.text())
             .then(html => {
                 document.getElementById('navbar-placeholder').innerHTML = html;
             });
     </script>
+
 </body>
 
 </html>

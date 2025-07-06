@@ -5,7 +5,7 @@
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <title>Admin Login</title>
-    <link rel="stylesheet" href="../styles/styles.css" />
+    <link rel="stylesheet" href="/styles/styles.css" />
 </head>
 
 <body>
@@ -22,8 +22,8 @@
         <div id="admin-links" style="display: none;">
             <p>Welcome, admin! Go to:</p>
             <ul>
-                <li><a href="../pages/member-registration.html">Member View</a></li>
-                <li><a href="../pages/horse-registration.html">Horse View</a></li>
+                <li><a href="/pages/member-registration.html">Member View</a></li>
+                <li><a href="/pages/horse-registration.html">Horse View</a></li>
             </ul>
             <button id="logout">Logout</button>
         </div>
@@ -81,7 +81,7 @@
 
     <!--Add Nav Bar-->
     <script>
-        fetch('../partials/navbar.html')
+        fetch('/partials/navbar.html')
             .then(res => res.text())
             .then(html => {
                 document.getElementById('navbar-placeholder').innerHTML = html;

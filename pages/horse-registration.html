@@ -1,0 +1,42 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Horse Registration</title>
+    <link rel="stylesheet" href="../styles/styles.css" />
+
+    <!-- Dynamically set base path for local vs GitHub Pages -->
+    <script>
+        (function () {
+            const base = document.createElement('base');
+            const path = window.location.pathname;
+            const isGitHubPages = path.includes('/horse-registration/');
+            base.href = isGitHubPages ? '/horse-registration/' : '/';
+            document.head.prepend(base);
+        })();
+    </script>
+</head>
+
+<body>
+    <!-- Dynamic navbar -->
+    <div id="navbar-placeholder"></div>
+
+    <main>
+        <h1>Welcome</h1>
+        <p>This is a new page using the template.</p>
+        <!-- Add page-specific content here -->
+    </main>
+
+    <!-- Load the shared navbar -->
+    <script>
+        fetch('partials/navbar.html')
+            .then(res => res.text())
+            .then(html => {
+                document.getElementById('navbar-placeholder').innerHTML = html;
+            });
+    </script>
+</body>
+
+</html>

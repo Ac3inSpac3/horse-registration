@@ -38,9 +38,12 @@
 
     <!-- Load Navbar -->
     <script type="module">
-        import { BASE_PATH } from "../scripts/env.js";
+        export const BASE_PATH = window.location.pathname.includes("/horse-registration/")
+            ? "/horse-registration"
+            : "";
         import(`${BASE_PATH}/scripts/load-navbar.js`).then(mod => mod.loadNavbar());
     </script>
+
 </body>
 
 </html>

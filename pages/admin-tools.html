@@ -24,10 +24,179 @@
     <div id="navbar-placeholder"></div>
 
     <main>
-        <h1>Welcome</h1>
-        <p>This is a new page using the template.</p>
-        <!-- Add page-specific content here -->
+        <h2>Admin Tools</h2>
+
+        <section>
+            <h3>Member Registrations</h3>
+            <table id="members-table">
+                <thead>
+                    <tr>
+                        <th>Name</th>
+                        <th>Email</th>
+                        <th>Phone</th>
+                        <th>Type</th>
+                        <th>Submitted By</th>
+                    </tr>
+                </thead>
+                <tbody></tbody>
+            </table>
+        </section>
+
+        <section style="margin-top: 2em;">
+            <h3>Horse Registrations</h3>
+            <table id="horses-table">
+                <thead>
+                    <tr>
+                        <th>Horse Name</th>
+                        <th>Breed</th>
+                        <th>Color</th>
+                        <th>DOB</th>
+                        <th>Sex</th>
+                        <th>Submitted By</th>
+                    </tr>
+                </thead>
+                <tbody></tbody>
+            </table>
+        </section>
+
+        <!-- Modal -->
+        <div id="detail-modal" class="modal" style="display: none;">
+            <div class="modal-content">
+                <span class="close-btn">&times;</span>
+                <div id="modal-body"></div>
+                <div id="modal-actions" style="margin-top: 1em; text-align: right;"></div>
+            </div>
+        </div>
+
+
+
     </main>
+
+    <script type="module">
+        import { app } from "../scripts/firebase-init.js";
+        import { requireVerifiedUser } from "../scripts/check-user.js";
+        import {
+            getFirestore,
+            collection,
+            getDocs,
+            deleteDoc,
+            doc
+        } from "https://www.gstatic.com/firebasejs/11.10.0/firebase-firestore.js";
+
+        const db = getFirestore(app);
+        const user = await requireVerifiedUser(true); // admin only
+
+        const modal = document.getElementById("detail-modal");
+        const modalBody = document.getElementById("modal-body");
+        const modalActions = document.getElementById("modal-actions");
+        const closeBtn = document.querySelector(".close-btn");
+
+        closeBtn.addEventListener("click", closeModal);
+
+        function closeModal() {
+            modal.style.display = "none";
+            modalBody.innerHTML = "";
+            modalActions.innerHTML = "";
+        }
+
+        async function loadMembers() {
+            const tableBody = document.querySelector("#members-table tbody");
+            const snapshot = await getDocs(collection(db, "members"));
+            snapshot.forEach(docSnap => {
+                const m = docSnap.data();
+                const id = docSnap.id;
+                const row = document.createElement("tr");
+                row.innerHTML = `
+                <td>${m.name || ""}</td>
+                <td>${m.email || ""}</td>
+                <td>${m.phone || ""}</td>
+                <td>${m.membershipType || ""}</td>
+                <td>${m.submittedByEmail || m.submittedBy || ""}</td>
+            `;
+                row.addEventListener("click", () => {
+                    modalBody.innerHTML = `
+                    <h3>Member Details</h3>
+                    <p><strong>Name:</strong> ${m.name || ""}</p>
+                    <p><strong>Email:</strong> ${m.email || ""}</p>
+                    <p><strong>Phone:</strong> ${m.phone || ""}</p>
+                    <p><strong>Membership Type:</strong> ${m.membershipType || ""}</p>
+                    <p><strong>Submitted By:</strong> ${m.submittedByEmail || m.submittedBy || ""}</p>
+                `;
+                    modalActions.innerHTML = `
+                        <div class="modal-button-row">
+                            <button id="edit-btn" class="modal-btn edit">Edit</button>
+                            <button id="delete-btn" class="modal-btn delete">Delete</button>
+                        </div>
+                `;
+                    document.getElementById("edit-btn").addEventListener("click", () => {
+                        alert("Edit feature coming soon.");
+                    });
+                    document.getElementById("delete-btn").addEventListener("click", async () => {
+                        if (confirm("Are you sure you want to delete this member?")) {
+                            await deleteDoc(doc(db, "members", id));
+                            closeModal();
+                            location.reload();
+                        }
+                    });
+                    modal.style.display = "flex";
+                });
+                tableBody.appendChild(row);
+            });
+        }
+
+        async function loadHorses() {
+            const tableBody = document.querySelector("#horses-table tbody");
+            const snapshot = await getDocs(collection(db, "horses"));
+            snapshot.forEach(docSnap => {
+                const h = docSnap.data();
+                const id = docSnap.id;
+                const row = document.createElement("tr");
+                row.innerHTML = `
+                <td>${h.horseName || ""}</td>
+                <td>${h.breed || ""}</td>
+                <td>${h.color || ""}</td>
+                <td>${h.dob || ""}</td>
+                <td>${h.sex || ""}</td>
+                <td>${h.submittedByEmail || h.submittedBy || ""}</td>
+            `;
+                row.addEventListener("click", () => {
+                    modalBody.innerHTML = `
+                    <h3>Horse Details</h3>
+                    <p><strong>Name:</strong> ${h.horseName || ""}</p>
+                    <p><strong>Breed:</strong> ${h.breed || ""}</p>
+                    <p><strong>Color:</strong> ${h.color || ""}</p>
+                    <p><strong>Date of Birth:</strong> ${h.dob || ""}</p>
+                    <p><strong>Sex:</strong> ${h.sex || ""}</p>
+                    <p><strong>Submitted By:</strong> ${h.submittedByEmail || h.submittedBy || ""}</p>
+                `;
+                    modalActions.innerHTML = `
+                        <div class="modal-button-row">
+                            <button id="edit-btn" class="modal-btn edit">Edit</button>
+                            <button id="delete-btn" class="modal-btn delete">Delete</button>
+                        </div>
+                `;
+                    document.getElementById("edit-btn").addEventListener("click", () => {
+                        alert("Edit feature coming soon.");
+                    });
+                    document.getElementById("delete-btn").addEventListener("click", async () => {
+                        if (confirm("Are you sure you want to delete this horse?")) {
+                            await deleteDoc(doc(db, "horses", id));
+                            closeModal();
+                            location.reload();
+                        }
+                    });
+                    modal.style.display = "flex";
+                });
+                tableBody.appendChild(row);
+            });
+        }
+
+        loadMembers();
+        loadHorses();
+    </script>
+
+
+
 
     <!-- Load Navbar -->
     <script type="module">

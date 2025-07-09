@@ -47,13 +47,8 @@
 
     <!-- Firebase + Firestore -->
     <script type="module">
-        // Verify Account login
         import { app } from "../scripts/firebase-init.js";
         import { requireVerifiedUser } from "../scripts/check-user.js";
-
-        // Require login + email verification before continuing
-        await requireVerifiedUser(); // Add `true` here if admin-only
-
         import {
             getFirestore,
             collection,
@@ -62,29 +57,29 @@
         } from "https://www.gstatic.com/firebasejs/11.10.0/firebase-firestore.js";
 
         const db = getFirestore(app);
+        const user = await requireVerifiedUser(); // Ensure logged-in user
 
         document.getElementById("member-form").addEventListener("submit", async (e) => {
             e.preventDefault();
 
-            const name = document.getElementById("name").value;
-            const email = document.getElementById("email").value;
-            const phone = document.getElementById("phone").value;
-            const membershipType = document.getElementById("membershipType").value;
+            const memberData = {
+                name: document.getElementById("name").value,
+                email: document.getElementById("email").value,
+                phone: document.getElementById("phone").value,
+                membershipType: document.getElementById("membershipType").value,
+                isCurrent: false,
+                createdAt: serverTimestamp(),
+                memberSince: new Date().getFullYear(),
+                submittedBy: user.uid,
+                submittedByEmail: user.email
+            };
 
             try {
-                await addDoc(collection(db, "members"), {
-                    name,
-                    email,
-                    phone,
-                    membershipType,
-                    isCurrent: false,
-                    createdAt: serverTimestamp(),
-                    memberSince: new Date().getFullYear()
-                });
-                alert("Registration successful!");
+                await addDoc(collection(db, "members"), memberData);
+                document.getElementById("form-message").textContent = "Registration successful!";
                 e.target.reset();
             } catch (error) {
-                alert("Error saving registration: " + error.message);
+                document.getElementById("form-message").textContent = "Error: " + error.message;
             }
         });
     </script>

@@ -24,17 +24,66 @@
     <div id="navbar-placeholder"></div>
 
     <main>
-        <h1>Welcome</h1>
-        <p>This is a new page using the template.</p>
-        <!-- Add page-specific content here -->
+        <h2>Register a Horse</h2>
+        <form id="horse-form">
+            <input type="text" id="horseName" placeholder="Horse Name" required>
+            <input type="text" id="breed" placeholder="Breed" required>
+            <input type="text" id="color" placeholder="Color" required>
+            <input type="date" id="dob" placeholder="Date of Birth" required>
+
+            <label>Sex:</label>
+            <select id="sex" required>
+                <option value="">Select</option>
+                <option value="Mare">Mare</option>
+                <option value="Gelding">Gelding</option>
+                <option value="Stallion">Stallion</option>
+            </select>
+
+            <button type="submit">Submit</button>
+        </form>
+
+        <div id="form-message" style="margin-top: 1em;"></div>
     </main>
 
-    <!-- Firebase + Firestore -->
+    <!-- Firebase + Firestore + Form Logic -->
     <script type="module">
-        // Verify Account login
         import { app } from "../scripts/firebase-init.js";
         import { requireVerifiedUser } from "../scripts/check-user.js";
+        import {
+            getFirestore,
+            collection,
+            addDoc,
+            serverTimestamp
+        } from "https://www.gstatic.com/firebasejs/11.10.0/firebase-firestore.js";
+
+        const db = getFirestore(app);
+        const user = await requireVerifiedUser();
+
+        document.getElementById("horse-form").addEventListener("submit", async (e) => {
+            e.preventDefault();
+
+            const horseData = {
+                horseName: document.getElementById("horseName").value,
+                breed: document.getElementById("breed").value,
+                color: document.getElementById("color").value,
+                dob: document.getElementById("dob").value,
+                sex: document.getElementById("sex").value,
+                createdAt: serverTimestamp(),
+                submittedBy: user.uid,
+                submittedByEmail: user.email
+            };
+            try {
+                await addDoc(collection(db, "horses"), horseData);
+                document.getElementById("form-message").textContent = "Registration successful!";
+                e.target.reset();
+            } catch (error) {
+                document.getElementById("form-message").textContent = "Error: " + error.message;
+            }
+
+
+        });
     </script>
+
 
     <!-- Load Navbar -->
     <script type="module">

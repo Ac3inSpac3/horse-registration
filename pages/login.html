@@ -30,15 +30,6 @@
             <input type="password" id="password" placeholder="Password" required><br>
             <button type="submit">Login</button>
         </form>
-
-        <div id="admin-links" style="display: none;">
-            <p>Welcome, admin! Go to:</p>
-            <ul>
-                <li><a href="pages/member-registration.html">Member View</a></li>
-                <li><a href="pages/horse-registration.html">Horse View</a></li>
-            </ul>
-            <button id="logout">Logout</button>
-        </div>
     </main>
 
     <!-- Firebase + Firestore -->
@@ -71,7 +62,9 @@
                     return;
                 }
 
-                alert("Login successful");
+                // Redirect to homepage
+                window.location.href = "../index.html"; // adjust path if needed
+                
             } catch (err) {
                 alert("Login failed: " + err.message);
             }
@@ -81,18 +74,6 @@
             signOut(auth);
         });
 
-        onAuthStateChanged(auth, (user) => {
-            const adminLinks = document.getElementById("admin-links");
-            const loginForm = document.getElementById("login-form");
-
-            if (user && user.emailVerified) {
-                adminLinks.style.display = "block";
-                loginForm.style.display = "none";
-            } else {
-                adminLinks.style.display = "none";
-                loginForm.style.display = "block";
-            }
-        });
     </script>
 
     <!-- Load Navbar -->

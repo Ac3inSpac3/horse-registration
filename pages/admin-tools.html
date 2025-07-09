@@ -7,14 +7,20 @@
     <title>Admin Tools</title>
     <link rel="stylesheet" href="../styles/styles.css" />
 
-    <!-- Dynamically set base path for local vs GitHub Pages -->
     <script>
+        // Dynamically set <base> tag and global BASE_PATH
         (function () {
-            const base = document.createElement('base');
             const path = window.location.pathname;
             const isGitHubPages = path.includes('/horse-registration/');
-            base.href = isGitHubPages ? '/horse-registration/' : '/';
+            const basePath = isGitHubPages ? '/horse-registration' : '';
+
+            // Add <base> tag for relative assets
+            const base = document.createElement('base');
+            base.href = basePath + '/';
             document.head.prepend(base);
+
+            // Make it available to module scripts
+            window.BASE_PATH = basePath;
         })();
     </script>
 </head>
@@ -73,8 +79,10 @@
     </main>
 
     <script type="module">
-        import { app } from "../scripts/firebase-init.js";
-        import { requireVerifiedUser } from "../scripts/check-user.js";
+        const [{ app }, { requireVerifiedUser }] = await Promise.all([
+            import(`${window.BASE_PATH}/scripts/firebase-init.js`),
+            import(`${window.BASE_PATH}/scripts/check-user.js`),
+        ]);
         import {
             getFirestore,
             collection,
@@ -200,10 +208,7 @@
 
     <!-- Load Navbar -->
     <script type="module">
-        export const BASE_PATH = window.location.pathname.includes("/horse-registration/")
-            ? "/horse-registration"
-            : "";
-        import(`${BASE_PATH}/scripts/load-navbar.js`).then(mod => mod.loadNavbar());
+        import(`${window.BASE_PATH}/scripts/load-navbar.js`).then(mod => mod.loadNavbar());
     </script>
 
 </body>

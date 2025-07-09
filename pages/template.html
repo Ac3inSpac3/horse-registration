@@ -7,14 +7,20 @@
     <title>Page Title</title>
     <link rel="stylesheet" href="../styles/styles.css" />
 
-    <!-- Dynamically set base path for local vs GitHub Pages -->
+    <!-- Dynamically set base path and global BASE_PATH -->
     <script>
         (function () {
-            const base = document.createElement('base');
             const path = window.location.pathname;
             const isGitHubPages = path.includes('/horse-registration/');
-            base.href = isGitHubPages ? '/horse-registration/' : '/';
+            const basePath = isGitHubPages ? '/horse-registration' : '';
+
+            // Set <base> for relative URLs
+            const base = document.createElement('base');
+            base.href = basePath + '/';
             document.head.prepend(base);
+
+            // Store globally for script usage
+            window.BASE_PATH = basePath;
         })();
     </script>
 </head>
@@ -31,10 +37,7 @@
 
     <!-- Load Navbar -->
     <script type="module">
-        export const BASE_PATH = window.location.pathname.includes("/horse-registration/")
-            ? "/horse-registration"
-            : "";
-        import(`${BASE_PATH}/scripts/load-navbar.js`).then(mod => mod.loadNavbar());
+        import(`${window.BASE_PATH}/scripts/load-navbar.js`).then(mod => mod.loadNavbar());
     </script>
 
 </body>

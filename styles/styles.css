@@ -53,6 +53,33 @@ form {
     flex-direction: column;
 }
 
+select {
+    appearance: none;
+    -webkit-appearance: none;
+    -moz-appearance: none;
+
+    padding: 10px 14px;
+    font-size: 16px;
+    border: 1px solid #ccc;
+    border-radius: 8px;
+    width: 100%;
+    box-sizing: border-box;
+    background-color: white;
+    color: #333;
+
+    background-image: url("data:image/svg+xml;charset=US-ASCII,%3Csvg xmlns='http://www.w3.org/2000/svg' width='10' height='7'%3E%3Cpath fill='%23333' d='M0 0l5 7 5-7z'/%3E%3C/svg%3E");
+    background-repeat: no-repeat;
+    background-position: right 10px center;
+    background-size: 10px 7px;
+}
+
+/* Ensure room for dropdown arrow */
+select:focus {
+    outline: none;
+    border-color: #007bff;
+}
+
+
 input[type="text"],
 input[type="email"],
 input[type="password"],

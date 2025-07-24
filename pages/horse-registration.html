@@ -30,34 +30,162 @@
     <div id="navbar-placeholder"></div>
 
     <main>
-        <h2>Register a Horse</h2>
+        <h1>Register a Horse</h1>
+        <hr>
         <form id="horse-form">
-            <input type="text" id="horseName" placeholder="Horse Name" required>
-            <input type="text" id="breed" placeholder="Breed" required>
-            <input type="text" id="color" placeholder="Color" required>
-            <input type="date" id="dob" placeholder="Date of Birth" required>
 
-            <label>Sex:</label>
-            <select id="sex" required>
-                <option value="">Select</option>
-                <option value="Mare">Mare</option>
-                <option value="Gelding">Gelding</option>
+            <h2>Horse Name:</h2>
+
+            <label for="prefix-suffix-type">Prefix or Suffix:</label><br>
+            <div class="prefix-suffix-row">
+                <select id="prefix-suffix-type" name="prefix-suffix-type" required>
+                    <option value="" disabled selected hidden>Prefix/Suffix</option>
+                    <option value="Prefix">Prefix</option>
+                    <option value="Suffix">Suffix</option>
+                </select>
+
+                <input type="text" id="prefix-suffix" name="prefix-suffix" placeholder="Enter Prefix or Suffix"
+                    maxlength="30" required>
+            </div>
+            <p style="margin-top: 0.5em;">Maximum name length is 30 letters including prefix/suffix and spaces.</p>
+            <br>
+
+
+            <label>Horse Name Options:</label><br>
+            <input type="text" id="name-option-1" name="name-option-1" placeholder="Name Option 1" maxlength="30"
+                required><br>
+            <input type="text" id="name-option-2" name="name-option-2" placeholder="Name Option 2" maxlength="30"><br>
+            <input type="text" id="name-option-3" name="name-option-3" placeholder="Name Option 3" maxlength="30"><br>
+
+
+            <hr> <!-- This line separates the sections -->
+
+            <h2>Physical Details:</h2>
+            <label>Sex:</label><br>
+            <select id="sex" name="sex" required>
+                <option value="" disabled selected hidden>Select One</option>
                 <option value="Stallion">Stallion</option>
-            </select>
+                <option value="Mare">Mare</option>
+                <option value="Filly">Filly</option>
+                <option value="Gelding">Gelding</option>
+                <option value="Colt">Colt</option>
+            </select><br>
 
-            <button type="submit">Submit</button>
+            <div id="upgrade-section" style="display: none;">
+                <label style="display: inline-block;">Upgrade from foal:</label>
+                <label style="display: inline-block; margin-left: 10px;">
+                    <input type="radio" name="upgrade-from-foal" value="Yes" required> Yes
+                </label>
+                <label style="display: inline-block; margin-left: 10px;">
+                    <input type="radio" name="upgrade-from-foal" value="No"> No
+                </label>
+            </div><br>
+
+
+            <label for="size-class">Horse Type:</label><br>
+            <select id="size-class" name="size-class" required>
+                <option value="" disabled selected hidden>Miniature/Larger</option>
+                <option value="Miniature">Miniature</option>
+                <option value="Larger">Larger</option>
+            </select><br>
+
+            <div id="height-inches" style="display: none;">
+                <label for="height-inches-input">Height (inches):</label><br>
+                <input type="number" id="height-inches-input" name="height-inches" min="20" max="50" step="0.5"
+                    placeholder="e.g. 34.5"><br><br>
+            </div>
+
+            <div id="height-hands" style="display: none;">
+                <label for="height-hands-input">Height (hands):</label><br>
+                <input type="number" id="height-hands-input" name="height-hands" min="8" max="20" step="0.5"
+                    placeholder="e.g. 14.5"><br><br>
+            </div>
+
+            <label>Pattern:</label><br>
+            <select id="pattern-type" name="pattern-type" required>
+                <option value="" disabled selected hidden>Select One</option>
+                <option value="Tobiano">Tobiano</option>
+                <option value="Overo">Overo</option>
+                <option value="Tobero">Tobero</option>
+                <option value="Sabino">Sabino</option>
+                <option value="Splash">Splash</option>
+            </select><br>
+
+            <label>Horse Colour:</label><br>
+            <input type="text" id="colour" name="color" placeholder="Colour" maxlength="30" required><br>
+
+            <label for="height-hands-input">Height (hands):</label><br>
+            <input type="text" id="microchip-number-input" name="microchip-number" placeholder="e.g. xxxx"
+                maxlength="30" required><br>
+
+            <label>Brand Description:</label><br>
+            <input type="text" id="brand-description" name="brand-description" placeholder="e.g. Symbol, letters"
+                maxlength="50"><br>
+
+            <label>Brand Position:</label><br>
+            <input type="text" id="brand-position" name="brand-position" placeholder="e.g. Near shoulder"
+                maxlength="50"><br>
+
+            <label>Foaling Date:</label><br>
+            <input type="date" id="foaling-date" name="foaling-date" required><br>
+
+
+            <div>
+                <label style="display: inline-block;">Pinto Foal Recorded:</label>
+                <label style="display: inline-block; margin-left: 10px;">
+                    <input type="radio" name="pinto-foal-recorded" value="Yes" required> Yes
+                </label>
+                <label style="display: inline-block; margin-left: 10px;">
+                    <input type="radio" name="pinto-foal-recorded" value="No"> No
+                </label>
+            </div><br><br>
+
+
+
+
+
+            <button type="submit">Submit Registration</button>
         </form>
-
-        <div id="form-message" style="margin-top: 1em;"></div>
     </main>
+
+    <script>
+
+    </script>
 
     <!-- Firebase + Firestore + Form Logic -->
     <script type="module">
+        // Toggle upgrade checkbox
+        const feeTypeSelect = document.getElementById('sex');
+        const upgradeSection = document.getElementById('upgrade-section');
+
+        feeTypeSelect.addEventListener('change', () => {
+            upgradeSection.style.display = (feeTypeSelect.value === 'Stallion') ? 'block' : 'none';
+        });
+
+        // Toggle height fields
+        const sizeClassSelect = document.getElementById('size-class');
+        const heightHands = document.getElementById('height-hands');
+        const heightInches = document.getElementById('height-inches');
+
+        sizeClassSelect.addEventListener('change', () => {
+            const value = sizeClassSelect.value;
+            if (value === 'Miniature') {
+                heightInches.style.display = 'block';
+                heightHands.style.display = 'none';
+            } else if (value === 'Larger') {
+                heightHands.style.display = 'block';
+                heightInches.style.display = 'none';
+            } else {
+                heightHands.style.display = 'none';
+                heightInches.style.display = 'none';
+            }
+        });
+
         const [{ app }, { requireVerifiedUser }] = await Promise.all([
             import(`${window.BASE_PATH}/scripts/firebase-init.js`),
             import(`${window.BASE_PATH}/scripts/check-user.js`),
         ]);
-        
+
         import {
             getFirestore,
             collection,

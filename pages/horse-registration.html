@@ -32,6 +32,15 @@
     <main>
         <h1>Register a Horse</h1>
         <hr>
+        <h3>Please ensure you have all the required information before begining to fill out registration.</h3>
+        <p>This includes:</p>
+        <p> - Required photos</p>
+        <p> - Registration Number</p>
+        <p> - Breeder information</p>
+        <p> - Microchip Number</p>
+
+        <p>Add cehckbox to confirm all they have all information, when checked all elements are shown?</p>
+        <hr>
         <form id="horse-form">
 
             <h2>Horse Name:</h2>
@@ -114,7 +123,7 @@
             <label>Horse Colour:</label><br>
             <input type="text" id="colour" name="color" placeholder="Colour" maxlength="30" required><br>
 
-            <label for="height-hands-input">Height (hands):</label><br>
+            <label for="microchip-number-input">Microchip Number:</label><br>
             <input type="text" id="microchip-number-input" name="microchip-number" placeholder="e.g. xxxx"
                 maxlength="30" required><br>
 
@@ -125,6 +134,41 @@
             <label>Brand Position:</label><br>
             <input type="text" id="brand-position" name="brand-position" placeholder="e.g. Near shoulder"
                 maxlength="50"><br>
+
+            <label>Add photo attach thing here</label>
+            <br>
+
+            <hr> <!-- This line separates the sections -->
+            <h2>Registration Details:</h2>
+
+            <div>
+                <label style="display: inline-block;">Registered with another Society:</label>
+                <label style="display: inline-block; margin-left: 10px;">
+                    <input type="radio" name="another-society-recorded" value="Yes" required> Yes
+                </label>
+                <label style="display: inline-block; margin-left: 10px;">
+                    <input type="radio" name="another-society-recorded" value="No"> No
+                </label>
+            </div><br><br>
+
+            <label>Registration Number:</label><br>
+            <input type="text" id="registration-number" name="registration-number" placeholder="e.g. xxxx"
+                maxlength="50"><br>
+
+            <label>Add photo attach thing here</label>
+            <br>
+
+            <hr> <!-- This line separates the sections -->
+            <h2>Breeder Details:</h2>
+
+            <label>Bred by:</label><br>
+            <input type="text" id="bred-by" name="bred-by" placeholder="e.g. TO BE ADDED" maxlength="50"><br>
+
+            <label>Address for breeder information</label>
+            <br>
+
+            <hr> <!-- This line separates the sections -->
+            <h2>Other Details:</h2>
 
             <label>Foaling Date:</label><br>
             <input type="date" id="foaling-date" name="foaling-date" required><br>
@@ -138,7 +182,19 @@
                 <label style="display: inline-block; margin-left: 10px;">
                     <input type="radio" name="pinto-foal-recorded" value="No"> No
                 </label>
-            </div><br><br>
+            </div><br>
+
+            <hr> <!-- This line separates the sections -->
+            <h2>Ancestry Details:</h2>
+
+            <label>Sire information</label>
+            <br>
+            <label>Sires Sire and Dam information</label>
+            <br>
+            <label>Dam information</label>
+            <br>
+            <label>Dams Sire and Dam information</label>
+            <br><br>
 
 
 
@@ -147,10 +203,6 @@
             <button type="submit">Submit Registration</button>
         </form>
     </main>
-
-    <script>
-
-    </script>
 
     <!-- Firebase + Firestore + Form Logic -->
     <script type="module">
